@@ -1,8 +1,10 @@
+import 'package:admin_dashboard/providers/auth_provider.dart';
 import 'package:admin_dashboard/providers/login_form_provider.dart';
 import 'package:admin_dashboard/router/router.dart';
 import 'package:admin_dashboard/ui/buttons/custom_outlined_button.dart';
 import 'package:admin_dashboard/ui/buttons/link_text.dart';
 import 'package:admin_dashboard/ui/inputs/custom_inputs.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +13,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return ChangeNotifierProvider(
       create: (_) => LoginFormProvider(),
       child: Builder(
@@ -24,12 +28,19 @@ class LoginView extends StatelessWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 370),
                 child: Form(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     key: loginFormProvider.formKey,
                     child: Column(
                       children: [
                         // Email
                         TextFormField(
-                          // validator: (value) => ,
+                          validator: (value) {
+                            if (!EmailValidator.validate(value ?? '')) {
+                              return 'Email no valido';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) => loginFormProvider.email = value,
                           style: const TextStyle(color: Colors.white),
                           decoration: CustomInputs.loginInputDecoration(
                             hint: 'Ingrese su e-mail',
@@ -40,6 +51,8 @@ class LoginView extends StatelessWidget {
                         const SizedBox(height: 20),
                         // Password
                         TextFormField(
+                          onChanged: (value) =>
+                              loginFormProvider.password = value,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Ingrese su contraseña';
@@ -60,7 +73,11 @@ class LoginView extends StatelessWidget {
                         const SizedBox(height: 20),
                         CustomOutlinedButton(
                           onPressed: () {
-                            loginFormProvider.validateForm();
+                            final isValid = loginFormProvider.validateForm();
+                            if (isValid) {
+                              authProvider.login(loginFormProvider.email,
+                                  loginFormProvider.password);
+                            }
                           },
                           text: 'Ingresar',
                         ),
