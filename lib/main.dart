@@ -1,5 +1,6 @@
 import 'package:admin_dashboard/api/cafe_api.dart';
 import 'package:admin_dashboard/providers/auth_provider.dart';
+import 'package:admin_dashboard/providers/categories_provider.dart';
 import 'package:admin_dashboard/providers/sidemenu_provider.dart';
 import 'package:admin_dashboard/router/router.dart';
 import 'package:admin_dashboard/services/local_storage.dart';
@@ -33,6 +34,7 @@ class AppState extends StatelessWidget {
           lazy: false,
           create: (_) => SidemenuProvider(),
         ),
+        ChangeNotifierProvider(create: (_) => CategoriesProvider()),
       ],
       child: const MyApp(),
     );
