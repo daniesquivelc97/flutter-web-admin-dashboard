@@ -2,10 +2,9 @@ import 'package:admin_dashboard/datatables/categories_datasource.dart';
 import 'package:admin_dashboard/providers/categories_provider.dart';
 import 'package:admin_dashboard/ui/buttons/custom_icon_button.dart';
 import 'package:admin_dashboard/ui/labels/custom_labels.dart';
+import 'package:admin_dashboard/ui/modals/category_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../cards/white_card.dart';
 
 class CategoriesView extends StatefulWidget {
   const CategoriesView({Key? key}) : super(key: key);
@@ -37,31 +36,37 @@ class _CategoriesViewState extends State<CategoriesView> {
             style: CustomLabels.h1,
           ),
           const SizedBox(height: 10),
-          WhiteCard(
-            child: PaginatedDataTable(
-              columns: const [
-                DataColumn(label: Text('ID')),
-                DataColumn(label: Text('Categoría')),
-                DataColumn(label: Text('Creado por')),
-                DataColumn(label: Text('Acciones')),
-              ],
-              source: CategoriesDTS(categorias, context),
-              header: const Text(
-                'Categorías disponibles',
-                maxLines: 2,
-              ),
-              onRowsPerPageChanged: (value) {
-                setState(() {
-                  _rowsPerPage = value ?? 10;
-                });
-              },
-              rowsPerPage: _rowsPerPage,
-              actions: [
-                CustomIconButton(
-                    onPressed: () {}, text: 'Crear', icon: Icons.add_outlined)
-              ],
+          PaginatedDataTable(
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Categoría')),
+              DataColumn(label: Text('Creado por')),
+              DataColumn(label: Text('Acciones')),
+            ],
+            source: CategoriesDTS(categorias, context),
+            header: const Text(
+              'Categorías disponibles',
+              maxLines: 2,
             ),
-          )
+            onRowsPerPageChanged: (value) {
+              setState(() {
+                _rowsPerPage = value ?? 10;
+              });
+            },
+            rowsPerPage: _rowsPerPage,
+            actions: [
+              CustomIconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      backgroundColor: Colors.transparent,
+                      context: context,
+                      builder: (_) => const CategoryModal(),
+                    );
+                  },
+                  text: 'Crear',
+                  icon: Icons.add_outlined)
+            ],
+          ),
         ],
       ),
     );
