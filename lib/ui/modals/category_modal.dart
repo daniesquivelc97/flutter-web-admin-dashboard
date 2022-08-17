@@ -1,8 +1,11 @@
 import 'package:admin_dashboard/models/category.dart';
+import 'package:admin_dashboard/providers/categories_provider.dart';
+import 'package:admin_dashboard/services/notifications_service.dart';
 import 'package:admin_dashboard/ui/buttons/custom_outlined_button.dart';
 import 'package:admin_dashboard/ui/inputs/custom_inputs.dart';
 import 'package:admin_dashboard/ui/labels/custom_labels.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoryModal extends StatefulWidget {
   final Categoria? categoria;
@@ -26,6 +29,8 @@ class _CategoryModalState extends State<CategoryModal> {
 
   @override
   Widget build(BuildContext context) {
+    final categoryProvider = Provider.of<CategoriesProvider>(context);
+
     return Container(
       padding: const EdgeInsets.all(20),
       height: 500,
@@ -69,7 +74,22 @@ class _CategoryModalState extends State<CategoryModal> {
             child: CustomOutlinedButton(
               text: 'Guardar',
               color: Colors.white,
-              onPressed: () async {},
+              onPressed: () async {
+                try {
+                  if (id == null) {
+                    await categoryProvider.newCategory(nombre);
+                    NotificationsService.showSnackBar('$nombre creado.');
+                  } else {
+                    await categoryProvider.updateCategory(nombre, id!);
+                    NotificationsService.showSnackBar('$nombre actualizado.');
+                  }
+                  Navigator.of(context).pop();
+                } catch (e) {
+                  Navigator.of(context).pop();
+                  NotificationsService.showSnackBarError(
+                      'No se pudo guardar la categoría, posiblemente ya exista.');
+                }
+              },
             ),
           )
         ],
