@@ -3,23 +3,26 @@ import 'package:flutter/material.dart';
 
 import '../cards/white_card.dart';
 
-class BlankView extends StatelessWidget {
-  const BlankView({Key? key}) : super(key: key);
+class UserView extends StatelessWidget {
+  final String uid;
+
+  const UserView({Key? key, required this.uid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
           Text(
-            'Blank View',
+            'User View',
             style: CustomLabels.h1,
           ),
           const SizedBox(height: 10),
-          const WhiteCard(
+          WhiteCard(
             title: 'Sales Statistics',
-            child: Text('Hola Mundo'),
+            child: Text(uid),
           )
         ],
       ),
