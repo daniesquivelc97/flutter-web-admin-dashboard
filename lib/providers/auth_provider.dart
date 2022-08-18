@@ -28,7 +28,6 @@ class AuthProvider extends ChangeNotifier {
     };
 
     CafeApi.post('/auth/login', data).then((json) {
-      print(json);
       final authResponse = AuthResponse.fromMap(json);
       user = authResponse.usuario;
 
@@ -38,8 +37,8 @@ class AuthProvider extends ChangeNotifier {
       CafeApi.configureDio();
       notifyListeners();
     }).catchError((e) {
-      print('Error en: $e');
       NotificationsService.showSnackBarError('Usuario / Password no validos');
+      throw ('Error en: $e');
     });
   }
 
