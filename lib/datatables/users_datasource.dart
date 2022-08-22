@@ -1,4 +1,5 @@
 import 'package:admin_dashboard/models/user.dart';
+import 'package:admin_dashboard/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 
 class UsersDataSource extends DataTableSource {
@@ -29,7 +30,9 @@ class UsersDataSource extends DataTableSource {
         DataCell(
           IconButton(
             icon: const Icon(Icons.edit_outlined),
-            onPressed: () {},
+            onPressed: () {
+              NavigationService.replaceTo('/dashboard/users/${user.uid}');
+            },
           ),
         ),
       ],
