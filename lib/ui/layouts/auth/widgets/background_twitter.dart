@@ -13,7 +13,7 @@ class BackgroundTwitter extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
             child: Image(
-              image: AssetImage('twitter-white-logo.png'),
+              image: AssetImage('logo-bg.png'),
               width: 400,
             ),
           ),

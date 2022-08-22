@@ -92,21 +92,19 @@ class _UserViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Table(
-        columnWidths: const {
-          0: FixedColumnWidth(250),
-        },
-        children: const [
-          TableRow(
-            children: [
-              // Avatar
-              _AvatarContainer(),
-              _UserViewForm()
-            ],
-          ),
-        ],
-      ),
+    return Table(
+      columnWidths: const {
+        0: FixedColumnWidth(250),
+      },
+      children: const [
+        TableRow(
+          children: [
+            // Avatar
+            _AvatarContainer(),
+            _UserViewForm()
+          ],
+        ),
+      ],
     );
   }
 }

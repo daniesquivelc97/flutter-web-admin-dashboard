@@ -51,9 +51,7 @@ class UsersView extends StatelessWidget {
               ),
             ],
             source: usersDataSource,
-            onPageChanged: (page) {
-              print('Page: $page');
-            },
+            onPageChanged: (page) {},
           ),
         ],
       ),
